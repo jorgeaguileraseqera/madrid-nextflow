@@ -1,8 +1,12 @@
 import groovy.xml.XmlParser
 import static groovy.json.JsonOutput.toJson
 import static groovy.json.JsonOutput.prettyPrint
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics
 
 class MadridInstance {
+
+    def descriptiveStatistics = new DescriptiveStatistics()
+
     def downloadXml() {
         def url = "https://informo.madrid.es/informo/tmadrid/pm.xml"
         def xml = new XmlParser().parse(url)
@@ -37,6 +41,14 @@ class MadridInstance {
 
     def estacionToString(item){
         item.target.toFile().text
+    }
+
+    def measureItem( Map item ){
+        descriptiveStatistics.addValue( ("0"+item.intensidadSat) as double)
+    }
+
+    def getMean(){
+        descriptiveStatistics.mean
     }
 }
 

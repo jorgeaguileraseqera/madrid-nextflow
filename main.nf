@@ -32,10 +32,17 @@ process echoStation{
 params.max = -1
 
 workflow {
-    Channel.fromList( madrid.downloadXml() ) \
-      | take(params.max) \
+    ch = Channel.fromList( madrid.downloadXml() )
+
+    ch.subscribe( onNext:{ item->
+        madrid.measureItem(item)
+        item
+    }, onComplete:{
+        println "The mean of intensidadSat is $madrid.mean"
+    })
+
+    ch.take(params.max) \
       | filter{ it.descripcion } \
       | emitStation \
-      | echoStation \
-      | view
+      | echoStation
 }
