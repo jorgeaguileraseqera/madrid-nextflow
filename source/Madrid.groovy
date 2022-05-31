@@ -36,7 +36,7 @@ class MadridInstance {
     }
 
     def estacionToString(item){
-        "$item"
+        item.target.toFile().text
     }
 }
 

@@ -26,7 +26,7 @@ process echoStation{
     stdout
 
     script:
-    "echo ${madrid.estacionToString(estacion)}"
+    "echo '${madrid.estacionToString(estacion)}'"
 }
 
 params.max = -1
